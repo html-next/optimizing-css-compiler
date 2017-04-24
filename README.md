@@ -24,6 +24,25 @@ When following the conventions listed below, the Optimizing CSS Compiler
 - Don't use any CSS preprocessors (yet! also will be doable long term)
 - Don't add class names within `component.js` files (yet! most usage in this pattern will eventually be allowed)
 
+## Why?
+
+Existing scoped and inline style solutions lead to selector bloat and limited
+style reusability.  While the scoping and isolation is a great mental model,
+it's not as great for the browser, which can better optimize styles it has
+already seen.
+
+The approach here allows us to write CSS as if it were scoped, and have it
+behave scoped at runtime as well.  But unlike other solutions, you will ship
+the smallest possible CSS file with the fewest possible selectors.
+
+This has the double effect of reducing the size of your template files
+by eliminating long and multiple class names in favor of short "sha" based
+selectors.
+
+In dev mode, we'll keep your selectors scoped but expanded so you can
+see quickly what has been applied, while in production we will aggressively
+minimize and combine your selectors as much as possible.
+
 ## Installation
 
 * `git clone <repository-url>` this repository
