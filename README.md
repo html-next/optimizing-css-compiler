@@ -20,9 +20,17 @@ When following the conventions listed below, the Optimizing CSS Compiler
 - Componetize your CSS
 - Use `&` for the component root element
 - Tag dynamic selectors (things to leave alone) with `@dynamic` or `/* @dynamic */`
-- Don't use media-queries and breakpoints (yet! they will be doable long term)
-- Don't use any CSS preprocessors (yet! also will be doable long term)
-- Don't add class names within `component.js` files (yet! most usage in this pattern will eventually be allowed)
+- Do assume your CSS is scoped by template context (route or component hbs file)
+
+## Things that don't work yet (but will)
+
+- **Everything! (but the basic cases are getting close to working)**
+- media-queries and breakpoints
+- CSS preprocessors
+- class names within `component.js` files (yet! a subset of usage in this pattern will eventually be allowed)
+- !important` (it'll still work, you just shouldn't)
+- global CSS
+-  `::pseudo-element` and `:pseudo-class` selectors
 
 ## Why?
 
@@ -39,9 +47,112 @@ This has the double effect of reducing the size of your template files
 by eliminating long and multiple class names in favor of short "sha" based
 selectors.
 
+This also has the ability to alert you to unused styles in your stylesheet,
+and to "tree-shake" your dead CSS.
+
 In dev mode, we'll keep your selectors scoped but expanded so you can
 see quickly what has been applied, while in production we will aggressively
 minimize and combine your selectors as much as possible.
+
+## Does "compiler" just mean "minification" ?
+
+Not at all.  Here's a quick (and contrived) example. Imagine this were
+ths sum total of the CSS and html in your app:
+
+```css
+h1 {
+  font-size: 1rem;
+  display: block;
+  width: 100px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+.foo {
+  font-size: 1rem;
+  width: 100px;
+  height: 50px;
+  margin: 5px;
+}
+
+.bar {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  margin: 5px;
+  padding: 5px;
+}
+
+.baz {
+  color: #f00;
+}
+```
+
+```html
+<h1 class="foo bar">Hello World</h1>
+```
+
+Looking at this example, we can see that many of our CSS rules are either
+overridden or redundant.
+
+Given the contrived nature of our example, we also see that we have 3
+selectors matching the html in our "app" when we could have used 1. We
+also have one selector that goes completely unused.
+
+For this example, the optimizing compiler would instead produce the following
+CSS and DOM.
+
+```css
+.s0 {
+  display: block;
+  font-size: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  margin: 5px;
+  padding: 5px;
+}
+```
+
+```html
+<h1 class="s0">Hello World</h1>
+```
+
+## Does "optimizing" just mean shorter class names and "collapsed" selector rules?
+
+No. In addition to referring to the ability to simplify the combined rules
+ for a single DOM element, "optimizing" refers to the ability to intelligently
+ produce the smallest selector graph it can based on the actual usage of
+ various rules in your app.
+ 
+ A contrived example of this extends the above example.
+ 
+ If any other elements use the same "rule set" as `s0`, they will also
+use `s0`.
+
+For the case where another element is just one style prop different from `s0`,
+  a clustering algorithm based on app usage is used to build a primary 
+  selector group, and a modified selector group.
+  
+For an example in which one group differs only by a different value for 
+padding-top, something like the following would be produced:
+
+```css
+.s0 {
+  display: block;
+  font-size: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  margin: 5px;
+  padding: 5px;
+}
+
+.s1 {
+  padding-top: 10px;
+}
+```
 
 ## Installation
 
