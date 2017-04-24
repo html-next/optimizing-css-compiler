@@ -1,0 +1,57 @@
+& {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+}
+
+.foo {
+  flex: 1;
+}
+
+.bar {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+}
+
+.baz {
+  height: 25px;
+}
+
+@dynamic
+.bizzare {
+  color: blue;
+}
+
+/* @dynamic */
+.bizzare-2 {
+  color: blue;
+}
+
+button {
+  background: #f00;
+}
+
+.foo button {
+  background: #f0f;
+}
+
+.foo > button {
+  background: #f0f;
+}
+
+.not-included {
+
+}
+
+.foo.bar {
+  padding: 5px;
+}
+
+img[src="foo"] {
+  position: relative;
+  width: 100px;
+  height: 50px;
+}
