@@ -32,6 +32,14 @@ When following the conventions listed below, the Optimizing CSS Compiler
 - global CSS
 -  `::pseudo-element` and `:pseudo-class` selectors
 
+## CSS
+
+- use mixins, not global selectors
+- no attr selectors
+- no sibling selectors
+- no ID selectors
+- classed and elements only
+
 ## Why?
 
 Existing scoped and inline style solutions lead to selector bloat and limited
@@ -153,6 +161,15 @@ padding-top, something like the following would be produced:
   padding-top: 10px;
 }
 ```
+
+## Prior Art
+
+The following links are some prior art we should investigate the usefulness of:
+
+- https://github.com/prototypal-io/prius
+- https://github.com/prototypal-io/cascada-es6
+- https://github.com/prototypal-io/cascada
+
 
 ## Installation
 

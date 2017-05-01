@@ -38,7 +38,7 @@ button {
   background: #f0f;
 }
 
-.foo > button {
+.baz > button {
   background: #f0f;
 }
 
@@ -48,10 +48,4 @@ button {
 
 .foo.bar {
   padding: 5px;
-}
-
-img[src="foo"] {
-  position: relative;
-  width: 100px;
-  height: 50px;
 }
