@@ -16,6 +16,12 @@
   height: 50px;
 }
 
+/*
+img[src="foo"] {
+  width: 100px;
+}
+*/
+
 .baz {
   height: 25px;
 }
