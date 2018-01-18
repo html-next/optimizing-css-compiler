@@ -1,5 +1,7 @@
 # [WIP] optimizing-css-compiler
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/html-next/optimizing-css-compiler.svg)](https://greenkeeper.io/)
+
 What does a little convention get you? A lot, as it turns out.
 
 When following the conventions listed below, the Optimizing CSS Compiler
